@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2025-07-01T15:13:29.540Z",
+  "lastUpdated": "2025-07-01T15:14:44.191Z",
   "version": "1.0.0",
-  "totalArenes": 2,
+  "totalArenes": 1,
   "arenes": [
     {
       "id": "test_arene_001",
@@ -15,20 +15,6 @@
       },
       "optimal": false,
       "timeToOptimal": null
-    },
-    {
-      "id": "gym_1751382809539",
-      "name": "test 2",
-      "team": "mystic",
-      "pokemonCount": 2,
-      "captureTime": "2025-07-01T15:13:00.000Z",
-      "location": "48.471729, -2.686543",
-      "latLng": {
-        "lat": 48.471728507557266,
-        "lng": -2.6865434646606445
-      },
-      "createdAt": "2025-07-01T15:13:29.539Z",
-      "lastUpdated": "2025-07-01T15:13:29.539Z"
     }
   ]
 }
