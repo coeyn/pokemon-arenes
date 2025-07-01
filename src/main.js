@@ -36,13 +36,18 @@ let githubFileSha = null; // SHA du fichier pour les mises à jour GitHub
 
 // Initialisation de l'application
 document.addEventListener('DOMContentLoaded', function() {
+    configureGitHubToken(); // Configurer le token GitHub d'abord
     initializeMap();
     initializeForm();
     initializeTabs();
     initializeFilters();
-    loadGymsFromGitHub(); // Charger depuis GitHub d'abord
+    // Ne pas charger automatiquement depuis GitHub - utiliser localStorage d'abord
+    loadGyms(); // Charger depuis localStorage
     initializeCreateGymModal();
     initializeUpdateGymModal();
+    
+    // Optionnel : charger depuis GitHub seulement si token est configuré et explicitement demandé
+    // loadGymsFromGitHub(); // Désactivé pour éviter les boucles
 });
 
 // Charger les arènes depuis GitHub
