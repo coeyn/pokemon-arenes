@@ -9,8 +9,8 @@ const TEAMS = {
 
 // Configuration GitHub pour le stockage collaboratif
 const GITHUB_CONFIG = {
-    owner: 'VOTRE_USERNAME',  // À remplacer par votre nom d'utilisateur GitHub
-    repo: 'pokemon-arenes',   // À remplacer par le nom de votre repository
+    owner: 'coeyn',  // ⚠️ REMPLACEZ par votre nom d'utilisateur GitHub
+    repo: 'pokemon-arenes',          // Nom du repository
     path: 'data/arenes.json',
     apiUrl: null // Sera généré automatiquement
 };
