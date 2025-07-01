@@ -195,6 +195,20 @@ function initializeMap() {
         selectLocation(e.latlng);
     });
     
+    // Événements pour mettre à jour la liste des arènes visibles
+    map.on('moveend', function() {
+        updateVisibleGymsList();
+    });
+    
+    map.on('zoomend', function() {
+        updateVisibleGymsList();
+    });
+    
+    // Événement pour les changements de vue (déplacement + zoom)
+    map.on('viewreset', function() {
+        updateVisibleGymsList();
+    });
+    
     // Essayer d'obtenir la géolocalisation
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -379,7 +393,8 @@ function displayGymsOnMap() {
                 className: 'custom-marker',
                 iconSize: [30, 30],
                 iconAnchor: [15, 30]
-            })
+            }),
+            gymId: gym.id // Ajouter l'ID pour le retrouver facilement
         }).addTo(map);
 
         // Popup avec aperçu et boutons d'action
@@ -409,6 +424,9 @@ function displayGymsOnMap() {
 
         markers.push(marker);
     });
+    
+    // Mettre à jour la liste des arènes visibles
+    updateVisibleGymsList();
 }
 
 // Calculer le statut d'une arène
@@ -546,57 +564,93 @@ window.showGymDetails = function(gymId) {
     
     const team = TEAMS[gym.team];
     const status = getGymStatus(gym);
-    const modal = document.getElementById('gym-modal');
-    const modalBody = document.getElementById('modal-body');
+    const captureTime = new Date(gym.captureTime);
     
-    modalBody.innerHTML = `
-        <h2 style="color: ${team.color}; margin-bottom: 20px;">${gym.name}</h2>
-        <div style="display: grid; gap: 15px;">
-            <div><strong>Équipe:</strong> ${team.name} ${team.icon}</div>
-            <div><strong>Nombre de Pokémon:</strong> ${gym.pokemonCount}</div>
-            <div><strong>Heure de prise:</strong> ${new Date(gym.captureTime).toLocaleString('fr-FR')}</div>
-            <div><strong>Temps de défense:</strong> ${status.timeDefending}</div>
-            <div><strong>PokéCoins gagnés:</strong> ${status.coinsEarned}/50</div>
-            <div><strong>Statut:</strong> <span style="color: ${status.isOptimal ? '#00b894' : '#e17055'};">${status.statusText}</span></div>
-            <div><strong>Localisation:</strong> ${gym.location}</div>
-            <div><strong>Dernière mise à jour:</strong> ${new Date(gym.lastUpdated).toLocaleString('fr-FR')}</div>
-        </div>
-        <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-            <button onclick="centerMapOnGym('${gymId}')" style="background: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
-                Voir sur la carte
-            </button>
-            <button onclick="openUpdateGymModal('${gymId}')" style="background: var(--mystic-color); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
-                Actualiser cette arène
-            </button>
-            <button onclick="deleteGym('${gymId}')" style="background: var(--valor-color); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
-                Supprimer
-            </button>
+    const modalContent = `
+        <div class="gym-details-modal">
+            <div class="gym-details-header" style="background: linear-gradient(135deg, ${team.color}, ${team.color}aa);">
+                <h2 style="color: white; margin: 0; display: flex; align-items: center; gap: 10px;">
+                    ${team.icon} ${gym.name || 'Arène sans nom'}
+                </h2>
+            </div>
+            <div class="gym-details-content">
+                <div class="detail-row">
+                    <strong>Équipe :</strong> ${team.name} ${team.icon}
+                </div>
+                <div class="detail-row">
+                    <strong>Pokémon :</strong> ${gym.pokemonCount} défenseur${gym.pokemonCount > 1 ? 's' : ''}
+                </div>
+                <div class="detail-row">
+                    <strong>Capturée le :</strong> ${captureTime.toLocaleString('fr-FR')}
+                </div>
+                <div class="detail-row">
+                    <strong>Temps de défense :</strong> ${status.timeDefending}
+                </div>
+                <div class="detail-row">
+                    <strong>PokéCoins gagnés :</strong> ${status.coinsEarned}/50
+                </div>
+                <div class="detail-row">
+                    <strong>Statut :</strong> 
+                    <span style="color: ${status.isOptimal ? '#00b894' : '#e17055'}; font-weight: 600;">
+                        ${status.statusText}
+                    </span>
+                </div>
+                ${!status.isOptimal ? `
+                    <div class="detail-row">
+                        <strong>Temps restant :</strong> ${status.timeLeft}
+                    </div>
+                ` : ''}
+                <div class="detail-row">
+                    <strong>Position :</strong> ${gym.latLng.lat.toFixed(6)}, ${gym.latLng.lng.toFixed(6)}
+                </div>
+            </div>
+            <div class="gym-details-actions">
+                <button onclick="focusOnGym('${gym.id}'); closeModal()" class="detail-btn focus-btn">
+                    📍 Voir sur la carte
+                </button>
+                <button onclick="openUpdateGymModal('${gym.id}'); closeModal()" class="detail-btn update-btn">
+                    🔄 Actualiser
+                </button>
+            </div>
         </div>
     `;
     
-    modal.style.display = 'block';
-};
+    showModal('Détails de l\'arène', modalContent);
+}
 
-// Centrer la carte sur une arène
-window.centerMapOnGym = function(gymId) {
-    const gym = sharedGyms.find(g => g.id === gymId);
-    if (gym && map) {
-        map.setView([gym.latLng.lat, gym.latLng.lng], 16);
-        document.getElementById('gym-modal').style.display = 'none';
+// Fonction utilitaire pour afficher une modal
+function showModal(title, content) {
+    // Supprimer toute modal existante
+    const existingModal = document.querySelector('.custom-modal');
+    if (existingModal) {
+        existingModal.remove();
     }
-};
+    
+    const modal = document.createElement('div');
+    modal.className = 'custom-modal';
+    modal.innerHTML = `
+        <div class="custom-modal-overlay" onclick="closeModal()"></div>
+        <div class="custom-modal-content">
+            <div class="custom-modal-header">
+                <h3>${title}</h3>
+                <button onclick="closeModal()" class="modal-close-btn">×</button>
+            </div>
+            <div class="custom-modal-body">
+                ${content}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
 
-// Supprimer une arène
-window.deleteGym = function(gymId) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette arène ?')) {
-        sharedGyms = sharedGyms.filter(g => g.id !== gymId);
-        saveSharedGyms();
-        displayGymsOnMap();
-        loadGyms();
-        document.getElementById('gym-modal').style.display = 'none';
-        showNotification('Arène supprimée', 'success');
+// Fonction pour fermer la modal
+function closeModal() {
+    const modal = document.querySelector('.custom-modal');
+    if (modal) {
+        modal.remove();
     }
-};
+}
 
 // Création rapide d'arène depuis la carte
 // Ancienne fonction supprimée - remplacée par la modal
@@ -989,3 +1043,113 @@ window.testSave = function() {
     
     saveSharedGyms();
 };
+
+// Fonction pour obtenir les arènes visibles dans la zone de la carte
+function getVisibleGyms() {
+    if (!map) return [];
+    
+    const bounds = map.getBounds();
+    return sharedGyms.filter(gym => {
+        return bounds.contains([gym.latLng.lat, gym.latLng.lng]);
+    });
+}
+
+// Fonction pour mettre à jour la liste des arènes visibles
+function updateVisibleGymsList() {
+    const visibleGyms = getVisibleGyms();
+    const gymsList = document.getElementById('gyms-list');
+    
+    if (!gymsList) return;
+    
+    if (visibleGyms.length === 0) {
+        gymsList.innerHTML = `
+            <div class="no-gyms-message">
+                <i class="fas fa-search"></i>
+                <p>Aucune arène visible dans cette zone</p>
+                <small>Déplacez-vous ou dézoomez pour voir plus d'arènes</small>
+            </div>
+        `;
+        return;
+    }
+    
+    // Trier les arènes par distance du centre de la carte
+    const center = map.getCenter();
+    visibleGyms.sort((a, b) => {
+        const distA = getDistance(center, a.latLng);
+        const distB = getDistance(center, b.latLng);
+        return distA - distB;
+    });
+    
+    gymsList.innerHTML = `
+        <div class="gyms-list-header">
+            <p><i class="fas fa-eye"></i> ${visibleGyms.length} arène${visibleGyms.length > 1 ? 's' : ''} visible${visibleGyms.length > 1 ? 's' : ''}</p>
+        </div>
+        <div class="gyms-list-items">
+            ${visibleGyms.map(gym => createGymListItem(gym)).join('')}
+        </div>
+    `;
+}
+
+// Fonction pour créer un élément de liste pour une arène
+function createGymListItem(gym) {
+    const team = TEAMS[gym.team];
+    const status = getGymStatus(gym);
+    const center = map.getCenter();
+    const distance = getDistance(center, gym.latLng);
+    
+    return `
+        <div class="gym-list-item" onclick="focusOnGym('${gym.id}')" data-gym-id="${gym.id}">
+            <div class="gym-list-icon">
+                <div class="gym-marker" style="background-color: ${team.color};">
+                    <span>${team.icon}</span>
+                </div>
+            </div>
+            <div class="gym-list-content">
+                <div class="gym-list-name">${gym.name || 'Arène sans nom'}</div>
+                <div class="gym-list-details">
+                    <span class="gym-team">${team.name}</span>
+                    <span class="gym-pokemon">🐾 ${gym.pokemonCount} Pokémon</span>
+                    <span class="gym-distance">📍 ${distance.toFixed(0)}m</span>
+                </div>
+                <div class="gym-list-status ${status.isOptimal ? 'optimal' : 'not-optimal'}">
+                    ${status.isOptimal ? '💰 Optimal (50 PokéCoins)' : `⏱️ ${status.timeLeft}`}
+                </div>
+            </div>
+            <div class="gym-list-actions">
+                <button class="gym-action-btn" onclick="event.stopPropagation(); openUpdateGymModal('${gym.id}')" title="Actualiser">
+                    <i class="fas fa-refresh"></i>
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Fonction pour calculer la distance entre deux points
+function getDistance(point1, point2) {
+    const R = 6371000; // Rayon de la Terre en mètres
+    const φ1 = point1.lat * Math.PI/180;
+    const φ2 = point2.lat * Math.PI/180;
+    const Δφ = (point2.lat - point1.lat) * Math.PI/180;
+    const Δλ = (point2.lng - point1.lng) * Math.PI/180;
+    
+    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    
+    return R * c; // Distance en mètres
+}
+
+// Fonction pour centrer la carte sur une arène
+function focusOnGym(gymId) {
+    const gym = sharedGyms.find(g => g.id === gymId);
+    if (gym) {
+        map.setView([gym.latLng.lat, gym.latLng.lng], Math.max(map.getZoom(), 16));
+        
+        // Faire clignoter le marqueur correspondant
+        const marker = markers.find(m => m.options.gymId === gymId);
+        if (marker) {
+            marker.openPopup();
+        }
+    }
+}

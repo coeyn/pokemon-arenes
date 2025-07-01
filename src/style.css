@@ -690,6 +690,329 @@ body {
     }
 }
 
+/* Styles pour la liste des arènes visibles */
+.gyms-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.gyms-list-header {
+    background: linear-gradient(135deg, var(--primary-color), #5f3dc4);
+    color: white;
+    padding: 15px 20px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    margin: -20px -20px 15px -20px;
+    font-weight: 600;
+}
+
+.gyms-list-header p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gyms-list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gym-list-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.gym-list-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-color);
+}
+
+.gym-list-icon {
+    flex-shrink: 0;
+}
+
+.gym-marker {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gym-list-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.gym-list-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gym-list-details {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.gym-list-details span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gym-team {
+    font-weight: 500;
+}
+
+.gym-list-status {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.gym-list-status.optimal {
+    background: #00b894;
+    color: white;
+}
+
+.gym-list-status.not-optimal {
+    background: #e17055;
+    color: white;
+}
+
+.gym-list-actions {
+    flex-shrink: 0;
+}
+
+.gym-action-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    font-size: 14px;
+}
+
+.gym-action-btn:hover {
+    background: #5f3dc4;
+    transform: scale(1.1);
+}
+
+.no-gyms-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.no-gyms-message i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.no-gyms-message p {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.no-gyms-message small {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Styles pour les modals de détails */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.custom-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.custom-modal-content {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.custom-modal-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.custom-modal-header h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.3rem;
+    flex: 1;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+    background: var(--border-color);
+    color: var(--text-color);
+}
+
+.custom-modal-body {
+    padding: 25px;
+}
+
+.gym-details-modal {
+    width: 100%;
+}
+
+.gym-details-header {
+    margin: -25px -25px 20px -25px;
+    padding: 20px 25px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.gym-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row strong {
+    min-width: 140px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.gym-details-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.detail-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.95rem;
+    min-width: 120px;
+}
+
+.focus-btn {
+    background: var(--primary-color);
+    color: white;
+}
+
+.focus-btn:hover {
+    background: #5f3dc4;
+    transform: translateY(-2px);
+}
+
+.update-btn {
+    background: #00b894;
+    color: white;
+}
+
+.update-btn:hover {
+    background: #00a085;
+    transform: translateY(-2px);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
@@ -716,6 +1039,35 @@ body {
     .map-container {
         height: 300px;
     }
+    
+    .gym-list-item {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .gym-marker {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+    
+    .gym-list-name {
+        font-size: 1rem;
+    }
+    
+    .gym-list-details {
+        gap: 10px;
+    }
+    
+    .gym-list-details span {
+        font-size: 0.8rem;
+    }
+    
+    .gym-action-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -732,5 +1084,19 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+    
+    .gym-list-item {
+        padding: 10px;
+    }
+    
+    .gyms-list-header {
+        margin: -15px -15px 10px -15px;
+        padding: 12px 15px;
+    }
+    
+    .gym-list-details {
+        flex-direction: column;
+        gap: 5px;
     }
 }
