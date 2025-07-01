@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker d'Arènes Pokémon GO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">
+                <i class="fas fa-map-marker-alt"></i>
+                Tracker d'Arènes Pokémon GO
+            </h1>
+            <p class="subtitle">Optimisez votre collecte de PokéCoins !</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Section de la carte -->
+            <section class="map-section">
+                <div class="card">
+                    <h3><i class="fas fa-map"></i> Carte des arènes</h3>
+                    <div id="map" class="map-container"></div>
+                </div>
+            </section>
+
+            <!-- Section de filtres -->
+            <section class="filters-section">
+                <div class="card">
+                    <h3><i class="fas fa-filter"></i> Filtres</h3>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>Équipes :</label>
+                            <div class="team-filters">
+                                <button class="filter-btn active" data-team="all">Toutes</button>
+                                <button class="filter-btn valor" data-team="valor">Valor</button>
+                                <button class="filter-btn mystic" data-team="mystic">Mystic</button>
+                                <button class="filter-btn instinct" data-team="instinct">Instinct</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Statut :</label>
+                            <div class="status-filters">
+                                <button class="filter-btn active" data-status="all">Tous</button>
+                                <button class="filter-btn optimal" data-status="optimal">Optimal (8h20+)</button>
+                                <button class="filter-btn recent" data-status="recent">Récent (&lt;8h20)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section de la liste des arènes -->
+            <section class="gyms-list-section">
+                <div class="card">
+                    <h3><i class="fas fa-list"></i> Liste des arènes</h3>
+                    <div id="gyms-list" class="gyms-list"></div>
+                </div>
+            </section>
+
+            <!-- Instructions simplifiées (en bas) -->
+            <section class="instructions-section">
+                <div class="card">
+                    <h2><i class="fas fa-info-circle"></i> Comment utiliser</h2>
+                    <div style="display: grid; gap: 15px; margin-top: 15px;">
+                        <div class="instruction-item">
+                            <span class="instruction-icon">🗺️</span>
+                            <span><strong>Cliquez sur la carte</strong> pour créer une nouvelle arène</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-icon">🏟️</span>
+                            <span><strong>Cliquez sur une arène existante</strong> pour l'actualiser</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-icon">🔄</span>
+                            <span><strong>Actualisation rapide :</strong> Mettez à jour équipe et nombre de Pokémon</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-icon">💰</span>
+                            <span><strong>8h20 de défense</strong> = 50 PokéCoins maximum par jour</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Fenêtre modale pour les détails -->
+    <div id="gym-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Fenêtre modale pour créer une arène -->
+    <div id="create-gym-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Créer une nouvelle arène</h2>
+                <span class="close" onclick="closeCreateGymModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="create-gym-form">
+                    <div class="form-group">
+                        <label for="create-gym-name">
+                            <i class="fas fa-tag"></i> Nom de l'arène
+                        </label>
+                        <input type="text" id="create-gym-name" placeholder="Ex: Fontaine du Parc Central" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="create-gym-team">
+                            <i class="fas fa-shield-alt"></i> Équipe qui contrôle
+                        </label>
+                        <select id="create-gym-team" required>
+                            <option value="">Choisir une équipe</option>
+                            <option value="valor">🔥 Team Valor (Rouge)</option>
+                            <option value="mystic">❄️ Team Mystic (Bleu)</option>
+                            <option value="instinct">⚡ Team Instinct (Jaune)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="create-pokemon-count">
+                            <i class="fas fa-users"></i> Nombre de Pokémon défenseurs
+                        </label>
+                        <select id="create-pokemon-count" required>
+                            <option value="">Nombre de défenseurs</option>
+                            <option value="1">1 Pokémon</option>
+                            <option value="2">2 Pokémon</option>
+                            <option value="3">3 Pokémon</option>
+                            <option value="4">4 Pokémon</option>
+                            <option value="5">5 Pokémon</option>
+                            <option value="6">6 Pokémon (Arène pleine)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="create-capture-time">
+                            <i class="fas fa-clock"></i> Heure de prise
+                        </label>
+                        <input type="datetime-local" id="create-capture-time" required>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeCreateGymModal()">
+                            <i class="fas fa-times"></i> Annuler
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Créer l'arène
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtre modale pour actualiser une arène -->
+    <div id="update-gym-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sync-alt"></i> Actualiser l'arène</h2>
+                <span class="close" onclick="closeUpdateGymModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="update-gym-info" class="gym-info">
+                    <!-- Les informations actuelles de l'arène seront affichées ici -->
+                </div>
+                <form id="update-gym-form">
+                    <div class="form-group">
+                        <label for="update-gym-team">
+                            <i class="fas fa-shield-alt"></i> Nouvelle équipe qui contrôle
+                        </label>
+                        <select id="update-gym-team" required>
+                            <option value="">Choisir une équipe</option>
+                            <option value="valor">🔥 Team Valor (Rouge)</option>
+                            <option value="mystic">❄️ Team Mystic (Bleu)</option>
+                            <option value="instinct">⚡ Team Instinct (Jaune)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="update-pokemon-count">
+                            <i class="fas fa-users"></i> Nombre de Pokémon défenseurs
+                        </label>
+                        <select id="update-pokemon-count" required>
+                            <option value="">Choisir le nombre</option>
+                            <option value="1">1 Pokémon</option>
+                            <option value="2">2 Pokémon</option>
+                            <option value="3">3 Pokémon</option>
+                            <option value="4">4 Pokémon</option>
+                            <option value="5">5 Pokémon</option>
+                            <option value="6">6 Pokémon (complet)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="update-capture-time">
+                            <i class="fas fa-clock"></i> Heure de prise
+                        </label>
+                        <input type="datetime-local" id="update-capture-time" required>
+                        <small class="help-text">Ajustez si nécessaire ou laissez "maintenant"</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeUpdateGymModal()">
+                            <i class="fas fa-times"></i> Annuler
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-sync-alt"></i> Actualiser l'arène
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
