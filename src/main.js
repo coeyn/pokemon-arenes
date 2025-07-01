@@ -652,6 +652,9 @@ function closeModal() {
     }
 }
 
+// Rendre la fonction accessible globalement
+window.closeModal = closeModal;
+
 // Création rapide d'arène depuis la carte
 // Ancienne fonction supprimée - remplacée par la modal
 
@@ -1153,3 +1156,6 @@ function focusOnGym(gymId) {
         }
     }
 }
+
+// Rendre la fonction accessible globalement
+window.focusOnGym = focusOnGym;
