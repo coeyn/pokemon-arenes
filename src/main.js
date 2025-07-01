@@ -76,6 +76,7 @@ let tempMarker = null;
 let pendingGymLocation = null; // Stocke la position pour la création d'arène
 let pendingUpdateGymId = null; // Stocke l'ID de l'arène à actualiser
 let githubFileSha = null; // SHA du fichier pour les mises à jour GitHub
+let lastSaveTime = 0; // Protection contre les sauvegardes trop fréquentes
 
 // Initialisation de l'application
 document.addEventListener('DOMContentLoaded', function() {
