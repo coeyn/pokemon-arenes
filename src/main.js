@@ -8,6 +8,11 @@ const TEAMS = {
 };
 
 // Configuration GitHub pour le stockage collaboratif
+// NOTE: La synchronisation GitHub est temporairement désactivée car elle nécessite un token d'authentification
+// Pour l'activer en production, vous devrez :
+// 1. Créer un Personal Access Token sur GitHub avec les permissions "repo"
+// 2. L'ajouter dans les headers d'autorisation de saveGymsToGitHub()
+// 3. Réactiver l'appel à saveGymsToGitHub() dans saveSharedGyms()
 const GITHUB_CONFIG = {
     owner: 'coeyn',  // ⚠️ REMPLACEZ par votre nom d'utilisateur GitHub
     repo: 'pokemon-arenes',          // Nom du repository
@@ -54,7 +59,7 @@ async function loadGymsFromGitHub() {
             sharedGyms = content.arenes || [];
             
             // Sauvegarder en local comme backup
-            saveSharedGyms();
+            localStorage.setItem('sharedPokemonGyms', JSON.stringify(sharedGyms));
             
             displayGymsOnMap();
             loadGyms();
@@ -283,8 +288,8 @@ function saveGyms() {
 function saveSharedGyms() {
     localStorage.setItem('sharedPokemonGyms', JSON.stringify(sharedGyms));
     
-    // Aussi sauvegarder sur GitHub (en arrière-plan)
-    saveGymsToGitHub().catch(console.error);
+    // Désactivé temporairement : synchronisation GitHub nécessite un token d'authentification
+    // saveGymsToGitHub().catch(console.error);
 }
 
 // Afficher les arènes sur la carte
