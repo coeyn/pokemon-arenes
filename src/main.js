@@ -125,6 +125,11 @@ async function loadGymsFromGitHub() {
 // Sauvegarder les arènes sur GitHub
 async function saveGymsToGitHub() {
     try {
+        console.log('🚀 Début sauvegarde GitHub...');
+        console.log('Token disponible:', !!GITHUB_CONFIG.token);
+        console.log('SHA actuel:', githubFileSha);
+        console.log('Nombre d\'arènes:', sharedGyms.length);
+        
         const dataToSave = {
             lastUpdated: new Date().toISOString(),
             version: "1.0.0",
@@ -140,6 +145,7 @@ async function saveGymsToGitHub() {
             sha: githubFileSha // Requis pour mettre à jour un fichier existant
         };
         
+        console.log('📤 Envoi vers GitHub...');
         const response = await fetch(GITHUB_CONFIG.apiUrl, {
             method: 'PUT',
             headers: {
@@ -149,15 +155,20 @@ async function saveGymsToGitHub() {
             body: JSON.stringify(requestBody)
         });
         
+        console.log('📥 Réponse GitHub:', response.status);
+        
         if (response.ok) {
             const result = await response.json();
             githubFileSha = result.content.sha; // Mettre à jour le SHA
+            console.log('✅ Synchronisation réussie!', result);
             showNotification('Arènes synchronisées avec GitHub !', 'success');
         } else {
-            throw new Error('Erreur de synchronisation GitHub');
+            const errorData = await response.text();
+            console.error('❌ Erreur réponse GitHub:', response.status, errorData);
+            throw new Error(`Erreur GitHub ${response.status}: ${errorData}`);
         }
     } catch (error) {
-        console.error('Erreur sauvegarde GitHub:', error);
+        console.error('💥 Erreur sauvegarde GitHub:', error);
         showNotification('Erreur de synchronisation - sauvegarde locale uniquement', 'error');
         
         // Ne pas appeler saveSharedGyms() pour éviter la boucle infinie
@@ -939,3 +950,42 @@ function autoConfigureToken() {
     }
     return false;
 }
+
+// Fonction de debug pour tester la synchronisation
+window.debugSync = function() {
+    console.log('=== DEBUG SYNCHRONISATION ===');
+    console.log('Token configuré:', !!GITHUB_CONFIG.token);
+    console.log('SHA GitHub:', githubFileSha);
+    console.log('Arènes locales:', sharedGyms.length);
+    console.log('Dernière sauvegarde:', lastSaveTime);
+    console.log('URL API:', GITHUB_CONFIG.apiUrl);
+    
+    // Test de chargement depuis GitHub
+    loadGymsFromGitHub().then(() => {
+        console.log('Chargement GitHub réussi, arènes:', sharedGyms.length);
+    }).catch(err => {
+        console.error('Erreur chargement GitHub:', err);
+    });
+};
+
+// Fonction pour forcer une sauvegarde de test
+window.testSave = function() {
+    console.log('=== TEST SAUVEGARDE ===');
+    if (sharedGyms.length === 0) {
+        // Créer une arène de test
+        const testGym = {
+            id: 'debug_' + Date.now(),
+            name: 'Test Debug',
+            team: 'mystic',
+            pokemonCount: 2,
+            captureTime: new Date().toISOString(),
+            latLng: { lat: 48.8566, lng: 2.3522 },
+            optimal: false,
+            timeToOptimal: null
+        };
+        sharedGyms.push(testGym);
+        console.log('Arène de test créée:', testGym);
+    }
+    
+    saveSharedGyms();
+};
