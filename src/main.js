@@ -84,13 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeForm();
     initializeTabs();
     initializeFilters();
-    // Ne pas charger automatiquement depuis GitHub - utiliser localStorage d'abord
-    loadGyms(); // Charger depuis localStorage
+    // Charger depuis GitHub d'abord pour la collaboration
+    loadGymsFromGitHub(); // Charger les données partagées
     initializeCreateGymModal();
     initializeUpdateGymModal();
-    
-    // Optionnel : charger depuis GitHub seulement si token est configuré et explicitement demandé
-    // loadGymsFromGitHub(); // Désactivé pour éviter les boucles
 });
 
 // Charger les arènes depuis GitHub
@@ -162,8 +159,8 @@ async function saveGymsToGitHub() {
         console.error('Erreur sauvegarde GitHub:', error);
         showNotification('Erreur de synchronisation - sauvegarde locale uniquement', 'error');
         
-        // Fallback sur localStorage
-        saveSharedGyms();
+        // Ne pas appeler saveSharedGyms() pour éviter la boucle infinie
+        // La sauvegarde locale a déjà été faite dans saveSharedGyms()
     }
 }
 
