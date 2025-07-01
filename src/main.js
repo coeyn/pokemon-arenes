@@ -17,11 +17,52 @@ const GITHUB_CONFIG = {
     owner: 'coeyn',  // ⚠️ REMPLACEZ par votre nom d'utilisateur GitHub
     repo: 'pokemon-arenes',          // Nom du repository
     path: 'data/arenes.json',
+    token: null, // Token configuré via setGitHubToken() dans la console
     apiUrl: null // Sera généré automatiquement
 };
 
 // Générer l'URL de l'API GitHub
 GITHUB_CONFIG.apiUrl = `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`;
+
+// Fonction pour configurer le token GitHub de manière sécurisée
+function configureGitHubToken() {
+    // Vérifier si un token est déjà stocké localement (pour les tests)
+    const storedToken = localStorage.getItem('github_token');
+    if (storedToken) {
+        GITHUB_CONFIG.token = storedToken;
+        console.log('Token GitHub chargé - synchronisation activée');
+        return;
+    }
+
+    // Pour la production, le token devrait être configuré ici :
+    // GITHUB_CONFIG.token = 'ghp_your_token_here';
+    
+    // Ou via une variable d'environnement (pour les déploiements)
+    // GITHUB_CONFIG.token = process.env.GITHUB_TOKEN;
+}
+
+// Fonction pour définir le token (utile pour les tests)
+window.setGitHubToken = function(token) {
+    if (token && token.startsWith('ghp_')) {
+        GITHUB_CONFIG.token = token;
+        localStorage.setItem('github_token', token);
+        console.log('Token GitHub configuré avec succès !');
+        
+        // Optionnel : tenter une synchronisation test si la fonction existe
+        if (typeof saveGymsToGitHub === 'function') {
+            saveGymsToGitHub().catch(console.error);
+        }
+    } else {
+        console.error('Token invalide. Il doit commencer par "ghp_"');
+    }
+};
+
+// Fonction pour supprimer le token
+window.removeGitHubToken = function() {
+    GITHUB_CONFIG.token = null;
+    localStorage.removeItem('github_token');
+    console.log('Token GitHub supprimé');
+};
 
 // Variables globales
 let map;
