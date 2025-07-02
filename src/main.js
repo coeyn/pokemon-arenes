@@ -572,9 +572,13 @@ function loadGyms() {
 }
 
 // Afficher les détails d'une arène
-window.showGymDetails = function(gymId) {
+function showGymDetails(gymId) {
+    console.log('Ouverture des détails pour l\'arène:', gymId);
     const gym = sharedGyms.find(g => g.id === gymId);
-    if (!gym) return;
+    if (!gym) {
+        console.error('Arène non trouvée:', gymId);
+        return;
+    }
     
     const team = TEAMS[gym.team];
     const status = getGymStatus(gym);
@@ -631,6 +635,9 @@ window.showGymDetails = function(gymId) {
     
     showModal('Détails de l\'arène', modalContent);
 }
+
+// Rendre la fonction accessible globalement
+window.showGymDetails = showGymDetails;
 
 // Fonction utilitaire pour afficher une modal
 function showModal(title, content) {
