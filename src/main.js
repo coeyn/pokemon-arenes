@@ -720,6 +720,9 @@ window.openUpdateGymModal = function(gymId) {
     // Définir l'heure actuelle par défaut
     setCurrentTimeInUpdateModal();
     
+    // Empêcher le scroll du body
+    document.body.classList.add('modal-open');
+    
     // Afficher la modal avec animation
     modal.style.display = 'block';
     modal.classList.add('show');
@@ -735,6 +738,9 @@ window.closeUpdateGymModal = function() {
     
     modal.style.display = 'none';
     modal.classList.remove('show');
+    
+    // Permettre le scroll du body
+    document.body.classList.remove('modal-open');
     
     // Réinitialiser le formulaire
     form.reset();
@@ -823,6 +829,9 @@ window.openCreateGymModal = function(lat, lng) {
     // Remplir les coordonnées dans un champ caché ou afficher l'adresse
     document.getElementById('create-gym-name').focus();
     
+    // Empêcher le scroll du body
+    document.body.classList.add('modal-open');
+    
     // Afficher la modal avec animation
     modal.style.display = 'block';
     modal.classList.add('show');
@@ -854,6 +863,9 @@ window.closeCreateGymModal = function() {
     
     modal.style.display = 'none';
     modal.classList.remove('show');
+    
+    // Permettre le scroll du body
+    document.body.classList.remove('modal-open');
     
     // Réinitialiser le formulaire
     form.reset();
