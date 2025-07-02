@@ -626,6 +626,9 @@ function showModal(title, content) {
         existingModal.remove();
     }
     
+    // Empêcher le scroll de la page en arrière-plan
+    document.body.classList.add('modal-open');
+    
     const modal = document.createElement('div');
     modal.className = 'custom-modal';
     modal.innerHTML = `
@@ -649,6 +652,8 @@ function closeModal() {
     const modal = document.querySelector('.custom-modal');
     if (modal) {
         modal.remove();
+        // Réactiver le scroll de la page
+        document.body.classList.remove('modal-open');
     }
 }
 
@@ -724,6 +729,9 @@ window.openUpdateGymModal = function(gymId) {
     modal.style.display = 'block';
     modal.classList.add('show');
     
+    // Empêcher le scroll de la page
+    document.body.classList.add('modal-open');
+    
     // Fermer le popup de la carte
     map.closePopup();
 };
@@ -735,6 +743,9 @@ window.closeUpdateGymModal = function() {
     
     modal.style.display = 'none';
     modal.classList.remove('show');
+    
+    // Réactiver le scroll de la page
+    document.body.classList.remove('modal-open');
     
     // Réinitialiser le formulaire
     form.reset();
@@ -827,6 +838,9 @@ window.openCreateGymModal = function(lat, lng) {
     modal.style.display = 'block';
     modal.classList.add('show');
     
+    // Empêcher le scroll de la page
+    document.body.classList.add('modal-open');
+    
     // Fermer le popup de la carte
     map.closePopup();
     
@@ -854,6 +868,9 @@ window.closeCreateGymModal = function() {
     
     modal.style.display = 'none';
     modal.classList.remove('show');
+    
+    // Réactiver le scroll de la page
+    document.body.classList.remove('modal-open');
     
     // Réinitialiser le formulaire
     form.reset();

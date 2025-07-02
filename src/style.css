@@ -396,21 +396,53 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
+    overflow: auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .modal-content {
     background-color: white;
-    margin: 5% auto;
-    padding: 30px;
+    margin: 0 auto;
+    padding: 0;
     border-radius: var(--border-radius);
-    width: 90%;
+    width: 100%;
     max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: calc(100vh - 40px);
     position: relative;
     animation: modalSlideIn 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background: var(--card-bg);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.modal-header h2,
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Corrections pour mobile */
@@ -420,21 +452,46 @@ body {
     }
     
     .modal-content {
-        margin: 2% auto;
-        width: 95%;
-        max-height: 95vh;
-        padding: 20px;
+        max-height: calc(100vh - 20px);
+        border-radius: 12px;
+    }
+    
+    .modal-header {
+        padding: 15px 20px;
+    }
+    
+    .modal-header h2,
+    .modal-header h3 {
+        font-size: 1.2rem;
     }
     
     .modal-body {
-        max-height: 70vh;
-        overflow-y: auto;
+        padding: 20px;
     }
 }
 
-/* Empêcher le scroll du body quand modal ouverte */
-body.modal-open {
-    overflow: hidden;
+@media (max-width: 480px) {
+    .modal {
+        padding: 5px;
+    }
+    
+    .modal-content {
+        max-height: calc(100vh - 10px);
+        border-radius: 8px;
+    }
+    
+    .modal-header {
+        padding: 12px 15px;
+    }
+    
+    .modal-header h2,
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .modal-body {
+        padding: 15px;
+    }
 }
 
 @keyframes modalSlideIn {
@@ -882,221 +939,144 @@ body.modal-open {
 
 /* Styles pour les modals de détails */
 .custom-modal {
+    display: none;
     position: fixed;
-    top: 0;
+    z-index: 1000;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.custom-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
+    overflow: auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .custom-modal-content {
-    position: relative;
-    background: var(--card-bg);
+    background-color: white;
+    margin: 0 auto;
     border-radius: var(--border-radius);
-    max-width: 500px;
     width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    max-height: calc(100vh - 40px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease-out;
 }
 
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
 .custom-modal-header {
-    display: flex;
-    justify-content: between;
-    align-items: center;
     padding: 20px 25px;
-    border-bottom: 2px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background: var(--card-bg);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .custom-modal-header h3 {
     margin: 0;
-    color: var(--text-color);
-    font-size: 1.3rem;
-    flex: 1;
-}
-
-.modal-close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-muted);
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: var(--transition);
-}
-
-.modal-close-btn:hover {
-    background: var(--border-color);
-    color: var(--text-color);
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
 .custom-modal-body {
-    padding: 25px;
-}
-
-.gym-details-modal {
-    width: 100%;
-}
-
-.gym-details-header {
-    margin: -25px -25px 20px -25px;
-    padding: 20px 25px;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
-
-.gym-details-content {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.detail-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.detail-row:last-child {
-    border-bottom: none;
-}
-
-.detail-row strong {
-    min-width: 140px;
-    color: var(--text-color);
-    font-weight: 600;
-}
-
-.gym-details-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
-
-.detail-btn {
     flex: 1;
-    padding: 12px 20px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.95rem;
-    min-width: 120px;
+    overflow-y: auto;
+    padding: 25px;
+    -webkit-overflow-scrolling: touch;
 }
 
-.focus-btn {
-    background: var(--primary-color);
-    color: white;
+/* Fixes pour empêcher le scroll de la page en arrière-plan */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
 }
 
-.focus-btn:hover {
-    background: #5f3dc4;
-    transform: translateY(-2px);
-}
-
-.update-btn {
-    background: #00b894;
-    color: white;
-}
-
-.update-btn:hover {
-    background: #00a085;
-    transform: translateY(-2px);
-}
-
-/* Responsive */
+/* Responsive pour les modales personnalisées */
 @media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
+    .custom-modal {
+        padding: 10px;
     }
     
-    .title {
-        font-size: 2rem;
+    .custom-modal-content {
+        max-height: calc(100vh - 20px);
+        border-radius: 12px;
     }
     
-    .form-row {
-        grid-template-columns: 1fr;
+    .custom-modal-header {
+        padding: 15px 20px;
     }
     
-    .filters {
-        flex-direction: column;
-        gap: 20px;
+    .custom-modal-header h3 {
+        font-size: 1.2rem;
     }
     
-    .card {
+    .custom-modal-body {
         padding: 20px;
     }
     
-    .map-container {
-        height: 300px;
+    .gym-details-header {
+        margin: -20px -20px 15px -20px;
+        padding: 15px 20px;
     }
     
-    .gym-list-item {
-        padding: 12px;
+    .detail-row {
+        padding: 10px 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .detail-row strong {
+        min-width: auto;
+        font-size: 0.9rem;
+        color: var(--primary-color);
+    }
+    
+    .gym-details-actions {
+        flex-direction: column;
         gap: 12px;
+        margin-top: 25px;
     }
     
-    .gym-marker {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
-    }
-    
-    .gym-list-name {
+    .detail-btn {
+        min-width: auto;
+        padding: 15px 20px;
         font-size: 1rem;
-    }
-    
-    .gym-list-details {
-        gap: 10px;
-    }
-    
-    .gym-list-details span {
-        font-size: 0.8rem;
-    }
-    
-    .gym-action-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 12px;
     }
 }
 
 @media (max-width: 480px) {
+    .custom-modal {
+        padding: 5px;
+    }
+    
+    .custom-modal-content {
+        max-height: calc(100vh - 10px);
+        border-radius: 8px;
+    }
+    
+    .custom-modal-header {
+        padding: 12px 15px;
+    }
+    
+    .custom-modal-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .custom-modal-body {
+        padding: 15px;
+    }
+    
     .title {
         font-size: 1.5rem;
     }
@@ -1121,8 +1101,12 @@ body.modal-open {
         padding: 12px 15px;
     }
     
-    .gym-list-details {
-        flex-direction: column;
-        gap: 5px;
+    .gym-details-header {
+        margin: -15px -15px 12px -15px;
+        padding: 12px 15px;
+    }
+    
+    .gym-details-header h2 {
+        font-size: 1.1rem !important;
     }
 }
