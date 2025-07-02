@@ -778,6 +778,7 @@ body {
 .gyms-list {
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .gyms-list-header {
@@ -800,6 +801,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow: hidden; /* Empêche les débordements horizontaux */
 }
 
 .gym-list-item {
@@ -813,6 +815,8 @@ body {
     cursor: pointer;
     transition: var(--transition);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 100%; /* S'assure que l'élément ne dépasse pas son conteneur */
+    overflow: hidden; /* Empêche les débordements internes */
 }
 
 .gym-list-item:hover {

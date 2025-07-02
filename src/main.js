@@ -457,12 +457,26 @@ function getGymStatus(gym) {
         timeDefending = `${Math.floor(diffMinutes)}m`;
     }
     
+    // Calculer le temps restant pour atteindre 8h20 (500 minutes)
+    let timeLeft = '';
+    if (!isOptimal) {
+        const minutesLeft = 500 - diffMinutes;
+        if (minutesLeft > 60) {
+            const hoursLeft = Math.floor(minutesLeft / 60);
+            const minsLeft = Math.floor(minutesLeft % 60);
+            timeLeft = `${hoursLeft}h ${minsLeft}m restant`;
+        } else {
+            timeLeft = `${Math.ceil(minutesLeft)}m restant`;
+        }
+    }
+    
     return {
         isOptimal,
         timeDefending,
         coinsEarned,
         statusText: isOptimal ? 'Optimal' : 'Récent',
-        diffMinutes
+        diffMinutes,
+        timeLeft
     };
 }
 
