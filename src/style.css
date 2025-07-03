@@ -990,4 +990,6 @@ body.modal-open {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    max-width: 100%; /* Empêche le débordement horizontal */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
