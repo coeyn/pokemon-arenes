@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2025-07-03T10:46:41.235Z",
+  "lastUpdated": "2025-07-03T11:04:44.241Z",
   "version": "1.0.0",
-  "totalArenes": 2,
+  "totalArenes": 3,
   "arenes": [
     {
       "id": "test_arene_001",
@@ -29,6 +29,20 @@
       },
       "createdAt": "2025-07-03T10:46:41.235Z",
       "lastUpdated": "2025-07-03T10:46:41.235Z"
+    },
+    {
+      "id": "gym_1751540684241",
+      "name": "yffiniac",
+      "team": "valor",
+      "pokemonCount": 1,
+      "captureTime": "2025-07-03T11:04:00.000Z",
+      "location": "48.470932, -2.697809",
+      "latLng": {
+        "lat": 48.47093183343958,
+        "lng": -2.6978087425231934
+      },
+      "createdAt": "2025-07-03T11:04:44.241Z",
+      "lastUpdated": "2025-07-03T11:04:44.241Z"
     }
   ]
 }
