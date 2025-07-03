@@ -1041,8 +1041,7 @@ document.head.appendChild(style);
 function autoConfigureToken() {
     // Cette fonction configure automatiquement le token pour le déploiement
     // Le token est assemblé au runtime pour éviter la détection
-    const parts = ['ghp', 'Ufxm7SUsWzIxmp2SWb9It7Yli3Jrdn1SvDbD'];
-    const token = parts.join('_');
+    const token = import.meta.env.GITHUB_TOKEN;
     if (token && token.length > 10) {
         localStorage.setItem('github_token', token);
         GITHUB_CONFIG.token = token;
