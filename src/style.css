@@ -782,11 +782,9 @@ body {
 }
 
 .gyms-list-header {
-    background: linear-gradient(135deg, var(--primary-color), #5f3dc4);
-    color: white;
     padding: 15px 20px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    margin: -20px -20px 15px -20px;
+    margin: -20px -20px 0px -20px;
     font-weight: 600;
 }
 
