@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2025-07-01T15:14:44.191Z",
+  "lastUpdated": "2025-07-03T10:46:41.235Z",
   "version": "1.0.0",
-  "totalArenes": 1,
+  "totalArenes": 2,
   "arenes": [
     {
       "id": "test_arene_001",
@@ -15,6 +15,20 @@
       },
       "optimal": false,
       "timeToOptimal": null
+    },
+    {
+      "id": "gym_1751539601235",
+      "name": "carjegu",
+      "team": "valor",
+      "pokemonCount": 1,
+      "captureTime": "2025-07-03T10:46:00.000Z",
+      "location": "48.471777, -2.682955",
+      "latLng": {
+        "lat": 48.47177663214175,
+        "lng": -2.6829546689987183
+      },
+      "createdAt": "2025-07-03T10:46:41.235Z",
+      "lastUpdated": "2025-07-03T10:46:41.235Z"
     }
   ]
 }
