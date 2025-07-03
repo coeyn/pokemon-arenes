@@ -15,7 +15,7 @@ const GITHUB_CONFIG = {
     owner: 'coeyn',  // ⚠️ REMPLACEZ par votre nom d'utilisateur GitHub
     repo: 'pokemon-arenes',          // Nom du repository
     path: 'data/arenes.json',
-    token: '', // Token sera configuré via setGitHubToken() ou localStorage
+    token: import.meta.env.GITHUB_TOKEN, // Token sera configuré via setGitHubToken() ou localStorage
     apiUrl: null // Sera généré automatiquement
 };
 
