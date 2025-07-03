@@ -652,6 +652,7 @@ function showModal(title, content) {
     
     const modal = document.createElement('div');
     modal.className = 'custom-modal';
+    modal.style.display = 'block'; // S'assurer que la modal est visible
     modal.innerHTML = `
         <div class="custom-modal-overlay" onclick="closeModal()"></div>
         <div class="custom-modal-content">
@@ -665,7 +666,11 @@ function showModal(title, content) {
         </div>
     `;
     
+    // Ajouter la modal au body
     document.body.appendChild(modal);
+    
+    // Debug - vérifier que la modal est bien dans le DOM
+    console.log('Modal ajoutée au DOM:', document.querySelector('.custom-modal') !== null);
 }
 
 // Fonction pour fermer la modal

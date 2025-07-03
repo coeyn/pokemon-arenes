@@ -998,12 +998,12 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Fixes pour empêcher le scroll de la page en arrière-plan */
+/* Fixes pour empêcher le scroll de la page en arrière-plan - compatible avec tous les navigateurs */
 body.modal-open {
     overflow: hidden;
-    position: fixed;
+    /* Suppression de position: fixed qui cause des problèmes sur Vivaldi */
+    /* Nous gardons la largeur à 100% mais sans fixer la hauteur */
     width: 100%;
-    height: 100vh;
 }
 
 /* Responsive pour les modales personnalisées */
