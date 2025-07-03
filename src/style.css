@@ -765,10 +765,11 @@ body {
 
 /* Fixes pour empêcher le scroll de la page en arrière-plan - compatible avec tous les navigateurs */
 body.modal-open {
-    overflow: hidden;
-    /* Suppression de position: fixed qui cause des problèmes sur Vivaldi */
-    /* Nous gardons la largeur à 100% mais sans fixer la hauteur */
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    overflow-y: scroll;
 }
 
 /* Responsive pour les modales personnalisées */
