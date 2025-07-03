@@ -580,65 +580,63 @@ function showGymDetails(gymId) {
         console.error('Arène non trouvée:', gymId);
         return;
     }
-    
+
     const team = TEAMS[gym.team];
     const status = getGymStatus(gym);
     const captureTime = new Date(gym.captureTime);
-    
-    const modalContent = `
-        <div class="custom-modal">
-            <div class="custom-modal-header" style="background: linear-gradient(135deg, ${team.color}, ${team.color}aa);">
-                <h2 style="color: white; margin: 0; display: flex; align-items: center; gap: 10px;">
-                    ${team.icon} ${gym.name || 'Arène sans nom'}
-                </h2>
+
+    // Injecter le contenu dans la modale existante
+    const modalTitle = document.getElementById('gym-details-title');
+    const modalBody = document.getElementById('gym-details-body');
+
+    modalTitle.innerHTML = `<i class="fas fa-info-circle"></i> ${gym.name || 'Arène sans nom'}`;
+    modalBody.innerHTML = `
+        <div class="detail-row">
+            <strong>Équipe :</strong> ${team.name} ${team.icon}
+        </div>
+        <div class="detail-row">
+            <strong>Pokémon :</strong> ${gym.pokemonCount} défenseur${gym.pokemonCount > 1 ? 's' : ''}
+        </div>
+        <div class="detail-row">
+            <strong>Capturée le :</strong> ${captureTime.toLocaleString('fr-FR')}
+        </div>
+        <div class="detail-row">
+            <strong>Temps de défense :</strong> ${status.timeDefending}
+        </div>
+        <div class="detail-row">
+            <strong>PokéCoins gagnés :</strong> ${status.coinsEarned}/50
+        </div>
+        <div class="detail-row">
+            <strong>Statut :</strong> 
+            <span style="color: ${status.isOptimal ? '#00b894' : '#e17055'}; font-weight: 600;">
+                ${status.statusText}
+            </span>
+        </div>
+        ${!status.isOptimal ? `
+            <div class="detail-row">
+                <strong>Temps restant :</strong> ${status.timeLeft}
             </div>
-            <div class="custom-modal-body">
-                <div class="detail-row">
-                    <strong>Équipe :</strong> ${team.name} ${team.icon}
-                </div>
-                <div class="detail-row">
-                    <strong>Pokémon :</strong> ${gym.pokemonCount} défenseur${gym.pokemonCount > 1 ? 's' : ''}
-                </div>
-                <div class="detail-row">
-                    <strong>Capturée le :</strong> ${captureTime.toLocaleString('fr-FR')}
-                </div>
-                <div class="detail-row">
-                    <strong>Temps de défense :</strong> ${status.timeDefending}
-                </div>
-                <div class="detail-row">
-                    <strong>PokéCoins gagnés :</strong> ${status.coinsEarned}/50
-                </div>
-                <div class="detail-row">
-                    <strong>Statut :</strong> 
-                    <span style="color: ${status.isOptimal ? '#00b894' : '#e17055'}; font-weight: 600;">
-                        ${status.statusText}
-                    </span>
-                </div>
-                ${!status.isOptimal ? `
-                    <div class="detail-row">
-                        <strong>Temps restant :</strong> ${status.timeLeft}
-                    </div>
-                ` : ''}
-                <div class="detail-row">
-                    <strong>Position :</strong> ${gym.latLng.lat.toFixed(6)}, ${gym.latLng.lng.toFixed(6)}
-                </div>
-            </div>
-            <div class="custom-modal-footer">
-                <button onclick="focusOnGym('${gym.id}'); closeModal()" class="button">
-                    📍 Voir sur la carte
-                </button>
-                <button onclick="openUpdateGymModal('${gym.id}'); closeModal()" class="button">
-                    🔄 Actualiser
-                </button>
-            </div>
+        ` : ''}
+        <div class="detail-row">
+            <strong>Position :</strong> ${gym.latLng.lat.toFixed(6)}, ${gym.latLng.lng.toFixed(6)}
         </div>
     `;
-    
-    showModal('Détails de l\'arène', modalContent);
+
+    // Afficher la modale
+    const modal = document.getElementById('gym-details-modal');
+    modal.style.display = 'block';
+    document.body.classList.add('modal-open');
 }
 
-// Rendre la fonction accessible globalement
+function closeGymDetailsModal() {
+    const modal = document.getElementById('gym-details-modal');
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
+
+// Rendre les fonctions accessibles globalement
 window.showGymDetails = showGymDetails;
+window.closeGymDetailsModal = closeGymDetailsModal;
 
 // Fonction utilitaire pour afficher une modal
 function showModal(title, content) {

@@ -222,6 +222,24 @@
         </div>
     </div>
 
+    <!-- Fenêtre modale pour les détails d'une arène -->
+    <div id="gym-details-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="gym-details-title"><i class="fas fa-info-circle"></i> Détails de l'arène</h2>
+                <span class="close" onclick="closeGymDetailsModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="gym-details-body">
+                <!-- Le contenu des détails sera injecté ici via JavaScript -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeGymDetailsModal()">
+                    <i class="fas fa-times"></i> Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module" src="/src/main.js"></script>
