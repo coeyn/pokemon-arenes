@@ -992,23 +992,38 @@ body.modal-open {
 }
 
 /* Détails de la salle de sport - Modale spécifique */
+.gym-details-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
 .gym-details-modal .modal-content {
     max-width: 500px;
     width: 90%;
+    padding: 20px;
     border-radius: var(--border-radius);
     background: var(--card-bg);
     box-shadow: var(--shadow);
-    padding: 20px;
     overflow-y: auto;
+    animation: modalSlideIn 0.3s ease-out;
 }
 
 .gym-details-modal .modal-header {
-    padding: 20px 25px 15px;
-    border-bottom: 2px solid var(--border-color);
-    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 25px 15px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 20px;
     background: var(--card-bg);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
@@ -1040,4 +1055,56 @@ body.modal-open {
     -webkit-overflow-scrolling: touch;
     flex: 1;
     overflow-y: auto;
+}
+
+.gym-details-modal .modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.gym-details-modal .btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.gym-details-modal .btn-primary:hover {
+    background: #5a4fcf;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.gym-details-modal .btn-secondary {
+    background: var(--text-muted);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.gym-details-modal .btn-secondary:hover {
+    background: #555;
+    transform: translateY(-2px);
 }
