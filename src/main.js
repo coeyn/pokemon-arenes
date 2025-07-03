@@ -586,13 +586,13 @@ function showGymDetails(gymId) {
     const captureTime = new Date(gym.captureTime);
     
     const modalContent = `
-        <div class="gym-details-modal">
-            <div class="gym-details-header" style="background: linear-gradient(135deg, ${team.color}, ${team.color}aa);">
+        <div class="custom-modal">
+            <div class="custom-modal-header" style="background: linear-gradient(135deg, ${team.color}, ${team.color}aa);">
                 <h2 style="color: white; margin: 0; display: flex; align-items: center; gap: 10px;">
                     ${team.icon} ${gym.name || 'Arène sans nom'}
                 </h2>
             </div>
-            <div class="gym-details-content">
+            <div class="custom-modal-body">
                 <div class="detail-row">
                     <strong>Équipe :</strong> ${team.name} ${team.icon}
                 </div>
@@ -623,11 +623,11 @@ function showGymDetails(gymId) {
                     <strong>Position :</strong> ${gym.latLng.lat.toFixed(6)}, ${gym.latLng.lng.toFixed(6)}
                 </div>
             </div>
-            <div class="gym-details-actions">
-                <button onclick="focusOnGym('${gym.id}'); closeModal()" class="detail-btn focus-btn">
+            <div class="custom-modal-footer">
+                <button onclick="focusOnGym('${gym.id}'); closeModal()" class="button">
                     📍 Voir sur la carte
                 </button>
-                <button onclick="openUpdateGymModal('${gym.id}'); closeModal()" class="detail-btn update-btn">
+                <button onclick="openUpdateGymModal('${gym.id}'); closeModal()" class="button">
                     🔄 Actualiser
                 </button>
             </div>
