@@ -301,18 +301,16 @@ body {
 }
 
 .gym-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 15px;
-    padding: 10px;
+    gap: 20px;
+    padding: 20px;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
-    cursor: pointer;
+    box-shadow: var(--shadow);
     transition: var(--transition);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 100%;
-    overflow: hidden;
 }
 
 .gym-item:hover {
@@ -320,59 +318,23 @@ body {
     border-color: var(--primary-color);
 }
 
-.gym-item .gym-team {
-    margin-left: 10px;
-    font-weight: bold;
-    color: var(--text-muted);
-}
-
 .gym-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.gym-name {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--text-color);
-}
-
-.gym-team {
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    text-transform: uppercase;
-}
-
-.gym-team.valor {
-    background: var(--valor-color);
-    color: white;
-}
-
-.gym-team.mystic {
-    background: var(--mystic-color);
-    color: white;
-}
-
-.gym-team.instinct {
-    background: var(--instinct-color);
-    color: var(--text-color);
+    flex-direction: column;
+    gap: 10px;
 }
 
 .gym-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
     font-size: 0.9rem;
     color: var(--text-muted);
 }
 
 .gym-status {
     font-weight: 600;
-    padding: 4px 8px;
+    padding: 8px 12px;
     border-radius: 4px;
     text-align: center;
 }
