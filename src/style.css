@@ -941,9 +941,10 @@ body.modal-open {
 }
 
 .custom-modal-content {
-    max-width: 500px; /* Align with other modals */
-    width: 90%;
-    padding: 20px; /* Consistent padding */
+    margin: 0 auto; /* Centrer horizontalement */
+    max-width: 500px; /* Limiter la largeur */
+    width: 90%; /* Largeur relative */
+    padding: 20px; /* Espacement interne */
     border-radius: var(--border-radius);
     background: var(--card-bg);
     box-shadow: var(--shadow);
