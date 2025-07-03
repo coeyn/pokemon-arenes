@@ -179,7 +179,7 @@
             ${e.map(n=>te(n)).join("")}
         </div>
     `}function te(e){const t=y[e.team],o=h(e),n=r.getCenter(),s=S(n,e.latLng);return`
-        <div class="gym-item" onclick="focusOnGym('${e.id}')" data-gym-id="${e.id}">
+        <div class="gym-item ${e.team}" onclick="focusOnGym('${e.id}')" data-gym-id="${e.id}">
             <div class="gym-list-icon">
                 <div class="gym-marker" style="background-color: ${t.color};">
                     <span>${t.icon}</span>

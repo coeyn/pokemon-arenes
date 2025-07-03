@@ -1144,7 +1144,7 @@ function createGymListItem(gym) {
     const distance = getDistance(center, gym.latLng);
     
     return `
-        <div class="gym-item" onclick="focusOnGym('${gym.id}')" data-gym-id="${gym.id}">
+        <div class="gym-item ${gym.team}" onclick="focusOnGym('${gym.id}')" data-gym-id="${gym.id}">
             <div class="gym-list-icon">
                 <div class="gym-marker" style="background-color: ${team.color};">
                     <span>${team.icon}</span>
