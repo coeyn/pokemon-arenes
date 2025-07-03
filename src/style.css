@@ -1115,3 +1115,47 @@ body.modal-open {
         font-size: 1.1rem !important;
     }
 }
+
+/* Boutons génériques */
+.button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.button:hover {
+    background: #5a4fcf;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.button.valor {
+    background: var(--valor-color);
+}
+
+.button.mystic {
+    background: var(--mystic-color);
+}
+
+.button.instinct {
+    background: var(--instinct-color);
+    color: var(--text-color);
+}
+
+.button.secondary {
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.button.secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}

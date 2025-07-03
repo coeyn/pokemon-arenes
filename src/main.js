@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadGymsFromGitHub(); // Charger les données partagées
     initializeCreateGymModal();
     initializeUpdateGymModal();
+    applyButtonStyles(); // Appliquer les styles de bouton
 });
 
 // Charger les arènes depuis GitHub
@@ -1202,3 +1203,17 @@ function focusOnGym(gymId) {
 
 // Rendre la fonction accessible globalement
 window.focusOnGym = focusOnGym;
+
+// Appliquer la classe générique aux boutons dans les modals et popups
+function applyButtonStyles() {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        if (!button.classList.contains('button')) {
+            button.classList.add('button');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    applyButtonStyles();
+});
