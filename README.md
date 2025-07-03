@@ -1,6 +1,6 @@
 # 🎮 Tracker d'Arènes Pokémon GO
 
-Un site web moderne pour aider les joueurs de Pokémon GO à tracker les arènes et optimiser leur collecte de PokéCoins.
+Un site web moderne et collaboratif pour aider les joueurs de Pokémon GO à suivre les arènes et optimiser leur collecte de PokéCoins.
 
 ## ✨ Fonctionnalités
 
@@ -8,8 +8,8 @@ Un site web moderne pour aider les joueurs de Pokémon GO à tracker les arènes
 - **➕ Ajout d'arènes** avec équipe, nombre de Pokémon et heure de prise
 - **⏰ Calcul automatique** du temps optimal (8h20 pour 50 PokéCoins)
 - **🎨 Interface en français** avec design moderne et responsive
-- **💾 Stockage local** des données (pas besoin de compte utilisateur)
-- **🔍 Filtres** par équipe et statut des arènes
+- **🔍 Filtres avancés** par équipe et statut des arènes
+- **📡 Synchronisation en temps réel** des données entre les utilisateurs
 - **📱 Compatible mobile** et desktop
 
 ## 🚀 Technologies utilisées
@@ -18,7 +18,7 @@ Un site web moderne pour aider les joueurs de Pokémon GO à tracker les arènes
 - **Vite** pour le build et le développement
 - **Leaflet + OpenStreetMap** pour la carte interactive (100% gratuit !)
 - **Nominatim** pour le géocodage inverse (OpenStreetMap)
-- **Local Storage** pour la persistance des données
+- **GitHub API** pour la synchronisation des données
 - **Font Awesome** pour les icônes
 - **Google Fonts** (Poppins)
 
@@ -51,7 +51,7 @@ Le système suit les règles officielles de Pokémon GO :
 
 3. **Aucune configuration requise !**
    - OpenStreetMap et Leaflet sont gratuits et ne nécessitent pas de clé API
-   - Tout fonctionne directement sans configuration supplémentaire
+   - La synchronisation des données est automatique via GitHub
 
 4. **Lancer le serveur de développement**
    ```bash
@@ -78,6 +78,13 @@ Le système suit les règles officielles de Pokémon GO :
 ### Voir les détails
 - Cliquez sur une arène dans la liste ou sur un marqueur sur la carte
 - Vous pouvez centrer la carte ou supprimer l'arène
+
+## 🚫 Limitations
+
+- Les emplacements d'arènes doivent être ajoutés manuellement
+- Pas d'API officielle Niantic disponible pour récupérer automatiquement les arènes
+- **Connexion Internet requise** : Les données sont synchronisées en temps réel entre les utilisateurs via un service cloud sécurisé
+- Le géocodage inverse dépend du service Nominatim d'OpenStreetMap
 
 ## 🌐 Tester le projet en ligne
 
@@ -106,13 +113,6 @@ raid_pokemon/
 - **Interface responsive** pour tous les appareils
 - **Animations fluides** et transitions
 - **Notifications** pour les actions utilisateur
-
-## 🚫 Limitations
-
-- Les emplacements d'arènes doivent être ajoutés manuellement
-- Pas d'API officielle Niantic disponible pour récupérer automatiquement les arènes
-- Les données sont stockées localement (pas de synchronisation entre appareils)
-- Le géocodage inverse dépend du service Nominatim d'OpenStreetMap
 
 ## 📄 License
 
