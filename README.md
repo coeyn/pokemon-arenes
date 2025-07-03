@@ -79,6 +79,10 @@ Le système suit les règles officielles de Pokémon GO :
 - Cliquez sur une arène dans la liste ou sur un marqueur sur la carte
 - Vous pouvez centrer la carte ou supprimer l'arène
 
+## 🌐 Tester le projet en ligne
+
+[Accéder à la version déployée](https://coeyn.github.io/pokemon-arenes/)
+
 ## 🔧 Structure du projet
 
 ```
