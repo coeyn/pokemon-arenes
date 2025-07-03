@@ -1140,31 +1140,18 @@ function updateVisibleGymsList() {
 function createGymListItem(gym) {
     const team = TEAMS[gym.team];
     const status = getGymStatus(gym);
-    const center = map.getCenter();
-    const distance = getDistance(center, gym.latLng);
-    
+
     return `
-        <div class="gym-item ${gym.team}" onclick="focusOnGym('${gym.id}')" data-gym-id="${gym.id}">
-            <div class="gym-list-icon">
-                <div class="gym-marker" style="background-color: ${team.color};">
-                    <span>${team.icon}</span>
-                </div>
+        <div class="gym-item ${gym.team}" onclick="showGymDetails('${gym.id}')">
+            <div class="gym-header">
+                <span class="gym-name">${gym.name || 'Arène sans nom'}</span>
+                <span class="gym-team ${gym.team}">${team.name}</span>
             </div>
-            <div class="gym-list-content">
-                <div class="gym-list-name">${gym.name || 'Arène sans nom'}</div>
-                <div class="gym-list-details">
-                    <span class="gym-team">${team.name}</span>
-                    <span class="gym-pokemon">🐾 ${gym.pokemonCount} Pokémon</span>
-                    <span class="gym-distance">📍 ${distance.toFixed(0)}m</span>
-                </div>
-                <div class="gym-list-status ${status.isOptimal ? 'optimal' : 'not-optimal'}">
-                    ${status.isOptimal ? '💰 Optimal (50 PokéCoins)' : `⏱️ ${status.timeLeft}`}
-                </div>
-            </div>
-            <div class="gym-list-actions">
-                <button class="gym-action-btn" onclick="event.stopPropagation(); openUpdateGymModal('${gym.id}')" title="Actualiser">
-                    <i class="fas fa-refresh"></i>
-                </button>
+            <div class="gym-details">
+                <span><strong>Pokémon:</strong> ${gym.pokemonCount}</span>
+                <span><strong>Temps:</strong> ${status.timeDefending}</span>
+                <span><strong>Coins:</strong> ${status.coinsEarned}</span>
+                <span class="gym-status ${status.isOptimal ? 'optimal' : 'recent'}">${status.statusText}</span>
             </div>
         </div>
     `;
